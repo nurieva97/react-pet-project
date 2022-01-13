@@ -20,6 +20,12 @@ code {
   padding: 20px;
 }
 
+.list-empty {
+  display:flex;
+  justify-content: center;
+  color: darkgray;
+}
+
 .list {
   display: flex;
   flex-direction: column;

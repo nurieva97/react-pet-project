@@ -48,7 +48,7 @@ const App = () => {
     <Context.Provider value={{ removeTodo }}>
       <div className="wrapper">
         <TodoForm create={createTodo} />
-        <TodoList todos={todos} onResolve={resolveTodo} />
+        { todos.length ? <TodoList todos={todos} onResolve={resolveTodo} /> : <p className='list-empty'>Нет задач</p> }
       </div>
     </Context.Provider>
   );
