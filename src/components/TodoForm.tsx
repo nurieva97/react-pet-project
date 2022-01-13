@@ -8,36 +8,31 @@ function useInputValue(defaultValue) {
     bind: {
       value,
       onChange: (event) => {
-        setValue(event.target.value)
-      }
+        setValue(event.target.value);
+      },
     },
     clear: () => setValue(''),
-    value: () => value
-  }
+    value: () => value,
+  };
 }
 function TodoForm({ create }) {
-
-  const input = useInputValue('')
+  const input = useInputValue('');
 
   function handleSubmit(event) {
     event.preventDefault();
     if (input.value().trim) {
       create({
-        name: input.value(),
+        title: input.value(),
         id: Date.now(),
         completed: false,
       });
-      input.clear( )
+      input.clear();
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <TextField
-        variant="outlined"
-        className="add-input"
-        {...input.bind}
-      />
+      <TextField variant="outlined" className="add-input" {...input.bind} />
       <Button variant="contained" color="primary" type="submit">
         Добавить задачу
       </Button>

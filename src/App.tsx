@@ -4,40 +4,30 @@ import TodoForm from './components/TodoForm';
 import Context from './context';
 
 const App = () => {
-  const [todos, setTodo] = useState([
-    {
-      name: 'Do homework',
-      id: '1',
-      resolved: false,
-    },
-    {
-      name: 'Buy milk',
-      id: '2',
-      resolved: false,
-    },
-    {
-      name: 'Call parents',
-      id: '3',
-      resolved: false,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
+      .then((response) => response.json())
+      .then((todos) => setTodos(todos));
+  }, []);
 
   function removeTodo(id) {
     console.log('remove todo');
-    setTodo(todos.filter((todo) => todo.id !== id));
+    setTodos(todos.filter((todo) => todo.id !== id));
   }
 
   function createTodo(item) {
     console.log('create todo');
-    setTodo([...todos, item]);
+    setTodos([...todos, item]);
   }
 
   function resolveTodo(id) {
     console.log('resolve todo');
-    setTodo(
+    setTodos(
       todos.map((todo) => {
         if (todo.id === id) {
-          todo.resolved = !todo.resolved;
+          todo.completed = !todo.completed;
         }
         return todo;
       })
@@ -48,7 +38,11 @@ const App = () => {
     <Context.Provider value={{ removeTodo }}>
       <div className="wrapper">
         <TodoForm create={createTodo} />
-        { todos.length ? <TodoList todos={todos} onResolve={resolveTodo} /> : <p className='list-empty'>Нет задач</p> }
+        {todos.length ? (
+          <TodoList todos={todos} onResolve={resolveTodo} />
+        ) : (
+          <p className="list-empty">Нет задач</p>
+        )}
       </div>
     </Context.Provider>
   );
